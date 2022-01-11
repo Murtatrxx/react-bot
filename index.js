@@ -39,9 +39,7 @@ const adminid = config.AdminID
 const jrmod = config.jrmod
 const helper = config.helper
 const Hprefixl = config.Hprefixl
-//Discord.js v13+ is needed for this to work
 
-//required
 client.commands = new Discord.Collection();
 const commandFolders = fs.readdirSync('./commands/new')
 for (const folder of commandFolders) {
@@ -71,12 +69,10 @@ const { youtube } = require('./commands/youtubeChecker');
 
 const ticketmanger= require('./commands/ticket/ticketmanger');
 
-//start 
 client.on("ready", async () =>{
     console.log(`Logged in as ${client.user.tag}!`);
     client.user.setActivity(`your clips`, { type: "WATCHING"});
-    //client.user.setPresence({ activity: [{ name: 'Testing discord.js v13' }], status: 'Online', type: "WATCHING" })
-    //console.log(    client.api.applications(client.user.id).commands.get())
+	
     client.api.applications(client.user.id).commands.post({data: {
         name: "Report Message",
         type: 3
@@ -125,10 +121,7 @@ client.on("guildMemberAdd", async member => {
 });
 
 client.on('messageCreate', async message => {
-    //console.log(message)
     if(message.guild === null) {
-        //console.log(message)
-        //dm checker
         dmchecker.dmchecker(message,client);
         return;
     }
@@ -181,7 +174,6 @@ client.on('messageCreate', async message => {
             
             antiw.antiworm(messa,message,client);
             //antiw.antiunderage(messa,message,client);
-            //End anti-worm code.
         
             if(messa.includes("@!144567396835917824")) { //227490301688676354  riz=144567396835917824
                 if (message.member.roles.cache.find(r=>r.name === modid)||message.member.roles.cache.find(r=>r.name === adminid)||message.member.roles.cache.find(r=>r.id === helper)){return}
@@ -332,12 +324,10 @@ if (!shadRole && shasRole) {
 });
 
 ////////////////////////////////////////////////
-// buttons
 client.on('interactionCreate', async interaction => {
-	if (!interaction.isButton()) return;
-    //return
-	//console.log(interaction.member);
-    const id = interaction.customId;
+    if (!interaction.isButton()) return;
+    
+   const id = interaction.customId;
     //console.log(id);
     if(id==="General"||id==="BanAppeal"||id==="Player"){
         if (interaction.member.roles.cache.find(r=>r.id === "865548571327070268")){
@@ -594,17 +584,14 @@ client.on('interactionCreate', async interaction => {
 
 client.on('messageUpdate', (oldMessage, newMessage) => { // Old message may be undefined
     if (!oldMessage.author) return;
+	
     if(oldMessage.channel.id === "886864421140447232"){
         const messa = newMessage.content.toLowerCase();
-        if(messa.startsWith("thred")){
+        if(messa.startsWith("thred")) {
             
-        }
-        else{
-            //newMessage.delete().catch(error => {console.log(error)});
+        } else {
             if(newMessage.member.roles.cache.find(r=>r.name === modid)||newMessage.member.roles.cache.find(r=>r.name === adminid)){
-
-            }
-            else{
+         } else{
                 newMessage.delete().catch(error => {console.log(error)});
             }
         }
@@ -612,5 +599,4 @@ client.on('messageUpdate', (oldMessage, newMessage) => { // Old message may be u
 
  })
 
-// client.login(process.env.token);
 client.login(config.BotToken);
